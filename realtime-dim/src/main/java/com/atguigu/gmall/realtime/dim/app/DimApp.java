@@ -46,6 +46,57 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.*;
 
+/**
+ * 需要启动的进程、可以按照下面顺序开启
+ *  zk、kafka、maxwell、hdfs、HBase、DimApp_test
+ *开发流程
+ *  基本环境准备
+ *  检查点相关设置
+ *  从kafka主题中读取数据
+ *  对流中数据进行类型转换并etl     jsonStr->jsonObj
+ * ------------------------------
+ *  使用flinkcdc读取配置表中的配置信息
+ *  对读取配置流数据进行类型转换 jsonStr->实体类对象
+ *  根据当前配置信息到HBase中执行建表或者删除操作
+ *      op=d  删表
+ *      op=c、r  建表
+ *      op=u  先删表、再建表
+ *  对配置流数据进行广播--broadcast
+ *  关联主流业务数据以及广播流配置数据--connect
+ *  对关联后的数据进行处理--process
+ *      new TableProcessFunction extends BroadcastProcessFunction{
+ *          open;将配置信息预加载到程序中，避免主流数据先到，广播流数据后到，丢失数据的情况
+ *          processElement;对主流数据的处理
+ *              获取操作的表的表名
+ *              根据表名到广播状态中以及configMap中获取对应的配置信息，如果配置信息不为空，说明是维度，将维度数据发送到下游
+ *                  Tuple2<dataJsonObj,配置对象>
+ *              在向下游发送数据之前，过滤掉了不需要传递的属性，补充操作类型
+ *          processBroadcastElement;对广播流数据进行出处理
+ *              op=d 将配置信息从广播状态以及configmap中删除掉
+ *              op!=d 将配置信息放到广播状态以及configmap中
+ *      }
+ *  将流中的数据同步到HBase中
+ *      class HBaseSinkFunction extends RichSinkFunction{
+ *          invoke;
+ *              type="delete" 从HBase中删除数据
+ *              type!="delete" 从HBase表中put数据
+ *      }
+ *  优化：抽取FlinkSourceUtil 工具类
+ *      抽取TableProcessFunction以及HBaseSinkFuction函数处理
+ *      抽取方法
+ *      抽取基类---模板方法设计模式
+ *
+ * 执行流程（以修改了品牌维度表中的一条数据为例）
+ *      当程序开始启动的时候，会将配置表中的配置信息加载到configMap以及广播状态中
+ *      修改品牌为度
+ *      binlog会将修改操作记录下来
+ *      maxwell会从binlog中获取修改的信息，并封装为json格式字符串，发送到kafka到topic_db主题日中
+ *      DimApp应用程序会从topic_db主题中读取数据并对其进行处理
+ *      根据当前数据的表名判断是否为维度
+ *      如果是维度数据，将维度数据传递到下游
+ *      将维度数据同步到HBase中
+ */
+
 public class DimApp extends BaseApp {
     public static void main(String[] args) throws Exception {
         /**
