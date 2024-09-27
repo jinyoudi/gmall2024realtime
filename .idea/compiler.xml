@@ -10,7 +10,7 @@
         <module name="realtime-common" />
         <module name="realtime-dim" />
         <module name="realtime-dws" />
-        <module name="realtime-dwd" />
+        <module name="realtime-dwd-base-log" />
       </profile>
     </annotationProcessing>
   </component>
