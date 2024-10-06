@@ -41,7 +41,11 @@ public class DwdInteractionCommentInfo extends BaseSQLApp {
 //        System.setProperty("HADOOP_USER_NAME","atguigu");
 //         */
 
-        new DwdInteractionCommentInfo().start(10012,4,Constant.TOPIC_DWD_INTERACTION_COMMENT_INFO);
+        new DwdInteractionCommentInfo().start(
+                10012,
+                4,
+                Constant.TOPIC_DWD_INTERACTION_COMMENT_INFO
+        );
     }
 
     @Override
