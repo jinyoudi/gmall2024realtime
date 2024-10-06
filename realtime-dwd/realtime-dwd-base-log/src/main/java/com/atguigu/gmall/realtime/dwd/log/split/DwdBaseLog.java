@@ -27,8 +27,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
+import org.apache.flink.api.common.state.State;
+import org.apache.flink.api.common.state.StateTtlConfig;
 import org.apache.flink.api.common.state.ValueState;
 import org.apache.flink.api.common.state.ValueStateDescriptor;
+import org.apache.flink.api.common.time.Time;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.connector.base.DeliveryGuarantee;
 import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
@@ -228,6 +231,10 @@ public class DwdBaseLog extends BaseApp {
                     @Override
                     public void open(Configuration parameters) throws Exception {
                         ValueStateDescriptor<String> valueStateDescriptor = new ValueStateDescriptor<String>("lastVisitDateState", String.class);
+//                        //设置状态失效时间和类型，OnCreateAndWrite创建和写的时候才会失效
+//                        valueStateDescriptor.enableTimeToLive(StateTtlConfig.newBuilder(Time.seconds(10))
+//                                        .setUpdateType(StateTtlConfig.UpdateType.OnCreateAndWrite)
+//                                .build());
                         lastVisitDateState = getRuntimeContext().getState(valueStateDescriptor);
                     }
 

@@ -34,19 +34,19 @@ public abstract class BaseApp {
         //2.1 开启检查点
         env.enableCheckpointing(5000L, CheckpointingMode.EXACTLY_ONCE); //5秒，精准一次性
         //2.2 设置检查点超时时间
-        env.getCheckpointConfig().setCheckpointTimeout(60000L); //一分钟
-        //2.3 设置job取消后检查点是否保留
-        env.getCheckpointConfig().setExternalizedCheckpointCleanup(CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION);
-        //2.4 设置两个检查点之间最小时间间隔
-        env.getCheckpointConfig().setMinPauseBetweenCheckpoints(2000L); //如果说默认只能有一个检查点备份（可以设置多个），第1个检查点6s才备份完，那第二个检查点按理说5s开启，但现在只能8s的时候才能开启，因为最小间隔2s
-        //2.5 重启策略，默认的是Integer的最大值
-//        env.setRestartStrategy(RestartStrategies.fixedDelayRestart(3,3000L)); //重启3次，3s尝试一次
-        env.setRestartStrategy(RestartStrategies.failureRateRestart(3, Time.days(30),Time.seconds(3))); //30天只能重启三次
-        //2.6 设置状态后端以及检查点存储路径
-//        env.setStateBackend(new HashMapStateBackend()); //状态存在tm的堆内存里，检查点存在Jm的堆内存里
-        env.getCheckpointConfig().setCheckpointStorage("hdfs://hadoop102:8020/ck/" + ckAndGroupId);
-        //2.7 设置操作hadoop的用户
-        System.setProperty("HADOOP_USER_NAME","atguigu");
+//        env.getCheckpointConfig().setCheckpointTimeout(60000L); //一分钟
+//        //2.3 设置job取消后检查点是否保留
+//        env.getCheckpointConfig().setExternalizedCheckpointCleanup(CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION);
+//        //2.4 设置两个检查点之间最小时间间隔
+//        env.getCheckpointConfig().setMinPauseBetweenCheckpoints(2000L); //如果说默认只能有一个检查点备份（可以设置多个），第1个检查点6s才备份完，那第二个检查点按理说5s开启，但现在只能8s的时候才能开启，因为最小间隔2s
+//        //2.5 重启策略，默认的是Integer的最大值
+////        env.setRestartStrategy(RestartStrategies.fixedDelayRestart(3,3000L)); //重启3次，3s尝试一次
+//        env.setRestartStrategy(RestartStrategies.failureRateRestart(3, Time.days(30),Time.seconds(3))); //30天只能重启三次
+//        //2.6 设置状态后端以及检查点存储路径
+////        env.setStateBackend(new HashMapStateBackend()); //状态存在tm的堆内存里，检查点存在Jm的堆内存里
+//        env.getCheckpointConfig().setCheckpointStorage("hdfs://hadoop102:8020/ck/" + ckAndGroupId);
+//        //2.7 设置操作hadoop的用户
+//        System.setProperty("HADOOP_USER_NAME","atguigu");
 
         //todo 3.从kafka的topic_db主题中读取业务数据
         //3.1 声明消费的主题以及消费者组
