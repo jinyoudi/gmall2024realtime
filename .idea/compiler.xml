@@ -9,10 +9,11 @@
         <outputRelativeToContentRoot value="true" />
         <module name="realtime-common" />
         <module name="realtime-dim" />
-        <module name="realtime-dws" />
         <module name="realtime-dwd-base-log" />
-        <module name="realtime-dwd-interaction-comment-info" />
         <module name="realtime-dwd-trade-cart-add" />
+        <module name="realtime-dws" />
+        <module name="realtime-dwd-trade-order-detail" />
+        <module name="realtime-dwd-interaction-comment-info" />
       </profile>
     </annotationProcessing>
   </component>
