@@ -14,6 +14,7 @@
         <module name="realtime-dws" />
         <module name="realtime-dwd-trade-order-detail" />
         <module name="realtime-dwd-interaction-comment-info" />
+        <module name="realtime-dwd-trade-order-cancel-detail" />
       </profile>
     </annotationProcessing>
   </component>
