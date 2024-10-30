@@ -2,6 +2,8 @@ package com.atguigu.gmall.realtime.common.base;
 
 import com.atguigu.gmall.realtime.common.constant.Constant;
 import com.atguigu.gmall.realtime.common.util.SQLUtil;
+import org.apache.flink.api.common.restartstrategy.RestartStrategies;
+import org.apache.flink.api.common.time.Time;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.configuration.RestOptions;
 import org.apache.flink.streaming.api.CheckpointingMode;
@@ -32,7 +34,7 @@ public abstract class BaseSQLApp {
 //        //2.4 设置两个检查点之间最小时间间隔
 //        env.getCheckpointConfig().setMinPauseBetweenCheckpoints(2000L);
 //        //2.5 设置重启策略
-//        env.setRestartStrategy(RestartStrategies.failureRateRestart(3, Time.days(30),Time.seconds(3)));
+        env.setRestartStrategy(RestartStrategies.failureRateRestart(3, Time.days(30),Time.seconds(3)));
 //        //2.6 设置状态后端
 //        env.setStateBackend(new HashMapStateBackend());
 //        //2.7 设置操作hadoop的用户
@@ -53,7 +55,9 @@ public abstract class BaseSQLApp {
                 "  `ts` bigint,\n" +
                 "  `data` map<string,string>,\n" +
                 "  `old` map<string,string>,\n" +
-                "  proc_time as proctime()\n" +
+                "  pt as proctime(),\n" +
+                "  et as to_timestamp_ltz(ts, 0), " +
+                "  watermark for et as et - interval '3' second " +
                 ") " + SQLUtil.getKafkaDDL(Constant.TOPIC_DB, groupId));
 //        tableEnv.executeSql("select * from topic_db").print();
     }
@@ -67,4 +71,5 @@ public abstract class BaseSQLApp {
                 ") " + SQLUtil.getHBaseDDL( "dim_base_dic" ));
 //        tableEnv.executeSql("select * from base_dic").print();
     }
+
 }
