@@ -15,6 +15,10 @@
         <module>realtime-dws-traffic-source-keyword-page-view-window</module>
         <module>realtime-dws-traffic-vc-ch-ar-is_new-page-view-window</module>
         <module>realtime-dws-traffic-home-detail-page-view-window</module>
+        <module>realtime-dws-user-user-login-window</module>
+        <module>realtime-dws-trade-cart-add-uu-window</module>
+        <module>realtime-dws-trade-sku-order-window</module>
+        <module>realtime-dws-trade-province-order-window</module>
     </modules>
 
     <dependencies>
