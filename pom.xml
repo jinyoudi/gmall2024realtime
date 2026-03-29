@@ -13,6 +13,7 @@
         <module>realtime-dim</module>
         <module>realtime-dwd</module>
         <module>realtime-dws</module>
+        <module>realtime-dwd/realtime-dwd-interaction-comment-info</module>
     </modules>
 
     <properties>
@@ -136,6 +137,12 @@
             <scope>provided</scope>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>com.github.shyiko</groupId>-->
+<!--            <artifactId>mysql-binlog-connector-java</artifactId>-->
+<!--            <version>0.21.0</version>-->
+<!--        </dependency>-->
+
     </dependencies>
 
 
@@ -162,6 +169,7 @@
             </dependency>
 
             <!-- hbase 依赖-->
+
             <dependency>
                 <groupId>org.apache.hbase</groupId>
                 <artifactId>hbase-client</artifactId>

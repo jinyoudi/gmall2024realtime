@@ -7,11 +7,34 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="realtime-common" />
         <module name="realtime-dim" />
-        <module name="realtime-dws" />
-        <module name="realtime-dwd" />
+        <module name="realtime-dwd-trade-order-refund" />
+        <module name="realtime-dwd-trade-cart-add" />
+        <module name="realtime-dws-traffic-source-keyword-page-view-window" />
+        <module name="realtime-dws-user-user-login-window" />
+        <module name="realtime-dwd-trade-order-detail" />
+        <module name="realtime-dws-trade-province-order-window" />
+        <module name="realtime-dwd-interaction-comment-info" />
+        <module name="realtime-common" />
+        <module name="gmall2024-publisher" />
+        <module name="realtime-dwd-trade-refund-pay-suc-detail" />
+        <module name="realtime-dws-traffic-home-detail-page-view-window" />
+        <module name="realtime-dwd-base-log" />
+        <module name="realtime-dws-traffic-vc-ch-ar-is_new-page-view-window" />
+        <module name="realtime-dws-trade-sku-order-window" />
+        <module name="realtime-dwd-trade-order-pay-suc-detail" />
+        <module name="realtime-dwd-base-db" />
+        <module name="realtime-dws-trade-cart-add-uu-window" />
+        <module name="realtime-dwd-trade-order-cancel-detail" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="DwsTradeCartAddUuWindow" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="gmall2024-publisher" options="-parameters" />
+    </option>
   </component>
 </project>
